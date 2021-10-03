@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"errors"
 	"github.com/cristovaoolegario/free-auth-server/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"golang.org/x/crypto/bcrypt"
@@ -14,17 +15,34 @@ type InsertUser struct {
 
 func (user *InsertUser) ConvertToUser() models.User {
 	return models.User{
-		ID:     primitive.NewObjectID(),
-		Name: user.Name,
+		ID:       primitive.NewObjectID(),
+		Name:     user.Name,
 		Email:    user.Email,
 		Password: getEncryptedPassword(user.Password),
-		Active: true,
+		Active:   true,
 	}
+}
+
+func (user *InsertUser) Validate() error {
+	if len(user.Name) == 0 {
+		return MissingFieldError("Name")
+	}
+	if len(user.Email) == 0 {
+		return MissingFieldError("Email")
+	}
+	if len(user.Password) == 0 {
+		return MissingFieldError("Password")
+	}
+	return nil
+}
+
+func MissingFieldError(missingField string) error {
+	return errors.New(missingField + " is required.")
 }
 
 func getEncryptedPassword(password string) []byte {
 	result, err := bcrypt.GenerateFromPassword([]byte(password), 14)
-	if err != nil{
+	if err != nil {
 		panic(err)
 	}
 	return result
