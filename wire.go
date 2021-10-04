@@ -10,16 +10,15 @@ import (
 )
 
 func initDB() *mongo.Database {
-	connection, err := db.NewClient(os.Getenv("ENV"),
+	dataBase, err := db.NewDatabase(os.Getenv("ENV"),
 		os.Getenv("APP_DB_USERNAME"),
 		os.Getenv("APP_DB_PASSWORD"),
 		os.Getenv("APP_DB_HOST"),
 		os.Getenv("APP_DB_NAME"))
-
 	if err != nil {
 		panic(err)
 	}
-	return db.NewDatabase(os.Getenv("DB_NAME"), connection)
+	return dataBase
 }
 
 func initApp(db *mongo.Database) App {

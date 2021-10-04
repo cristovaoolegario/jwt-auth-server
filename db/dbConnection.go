@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func NewClient(env, user, password, hostname, dbname string) (*mongo.Client, error) {
+func NewDatabase(env, user, password, hostname, dbname string) (*mongo.Database, error) {
 	server := mountServerConnection(env, user, password, hostname, dbname)
 
 	clientOptions := options.Client().ApplyURI(server)
@@ -21,11 +21,7 @@ func NewClient(env, user, password, hostname, dbname string) (*mongo.Client, err
 		return nil, err
 	}
 
-	return client, nil
-}
-
-func NewDatabase(dbName string, client *mongo.Client) *mongo.Database {
-	return client.Database(dbName)
+	return client.Database(dbname), nil
 }
 
 func mountServerConnection(env, user, password, hostname, dbname string) string {

@@ -26,10 +26,9 @@ func InitApp(db *mongo.Database) App {
 // wire.go:
 
 func InitDB() *mongo.Database {
-	connection, err := db.NewClient(os.Getenv("ENV"), os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_HOST"), os.Getenv("APP_DB_NAME"))
-
+	dataBase, err := db.NewDatabase(os.Getenv("ENV"), os.Getenv("APP_DB_USERNAME"), os.Getenv("APP_DB_PASSWORD"), os.Getenv("APP_DB_HOST"), os.Getenv("APP_DB_NAME"))
 	if err != nil {
 		panic(err)
 	}
-	return db.NewDatabase(os.Getenv("DB_NAME"), connection)
+	return dataBase
 }
