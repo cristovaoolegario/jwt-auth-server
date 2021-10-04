@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  mongo:
+    image: 'mongo:latest'
+    container_name: 'mongo'
+    ports:
+      - '27017:27017'
+  free-auth-server:
+    build: ./
+    container_name: 'free-auth-server'
+    ports:
+      - '3000:3000'
+    environment:
+      - ENV=dev
+      - PORT=:3000
+      - APP_DB_NAME=dev_env
