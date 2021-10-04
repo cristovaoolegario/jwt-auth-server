@@ -1,17 +1,13 @@
 package main
 
 import (
-	"github.com/joho/godotenv"
-	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	err := godotenv.Load()
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+	godotenv.Load()
 
 	db := InitDB()
 	app := InitApp(db)
