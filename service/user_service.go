@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 	"github.com/cristovaoolegario/free-auth-server/dto"
 	"github.com/cristovaoolegario/free-auth-server/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,11 +18,6 @@ func ProvideUserService(db *mongo.Database) UserService {
 
 func (service *UserService) CreateNewUser(user dto.InsertUser) (*models.User, error) {
 	userToInsert := user.ConvertToUser()
-
-	if _, err := service.GetUserByEmail(userToInsert.Email); err == nil{
-		return nil, errors.New("This email is already being used by an account.")
-	}
-
 	_, err := service.InsertOne(context.TODO(), &userToInsert)
 	if err != nil {
 		return nil, err

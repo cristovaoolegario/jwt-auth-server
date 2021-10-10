@@ -27,6 +27,12 @@ func (api *UserAPI) Register(w http.ResponseWriter, r *http.Request) {
 		respondWithError(w, http.StatusBadRequest, err.Error())
 		return
 	}
+
+	if _, err := api.UserService.GetUserByEmail(user.Email); err == nil {
+		respondWithError(w, http.StatusBadRequest, "This email is already being used by an account.")
+		return
+	}
+
 	createdUser, err := api.UserService.CreateNewUser(user)
 
 	if err != nil {
