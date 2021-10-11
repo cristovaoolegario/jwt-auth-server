@@ -19,7 +19,6 @@ func TestInsertUser_ConvertToUser(t *testing.T) {
 	assert.Equal(t, true, user.Active)
 	assert.IsType(t, primitive.ObjectID{}, user.ID)
 }
-
 func TestInsertUser_Validate_ShouldReturnError_WhenNameIsEmpty(t *testing.T) {
 	insertUser := InsertUser{
 		Name:     "",
@@ -53,7 +52,17 @@ func TestInsertUser_Validate_ShouldReturnError_WhenPasswordIsEmpty(t *testing.T)
 	assert.NotNil(t, err)
 	assert.Equal(t, "Password is required.", err.Error())
 }
+func TestInsertUser_Validate_ShouldReturnError_WhenEmailIsInvalid(t *testing.T) {
+	insertUser := InsertUser{
+		Name:     "Unit test",
+		Email:    "unittesjaklfdjlaf@",
+		Password: "123",
+	}
 
+	err := insertUser.Validate()
+	assert.NotNil(t, err)
+	assert.Equal(t, "Invalid email.", err.Error())
+}
 func TestInsertUser_Validate_ShouldNotReturnError_WhenItsAValidObject(t *testing.T) {
 	insertUser := InsertUser{
 		Name:     "Unit test",
