@@ -1,6 +1,6 @@
 # JWT Auth server
 
-##Structure
+## Structure
 
 An auth server to use in my other projects
 
